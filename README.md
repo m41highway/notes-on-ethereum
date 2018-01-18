@@ -1,4 +1,4 @@
-# Motes on Ethereum
+# Notes on Ethereum
 
 ## Geth
 

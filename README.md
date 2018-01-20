@@ -9,6 +9,11 @@ Full Sync: If the geth process has been interruped. An re-issue of geth command 
 Light Sync: A less secure way with header only 
 Download link: https://ethereum.github.io/go-ethereum/downloads/
 
+On Mac, set the PATH for geth
+```
+echo 'export PATH=YOUR_PATH_TO_GETH_FILE:$PATH' >> ~/.bash_profile
+```
+
 To run the geth process in Fast Sync Mode
 
 ```
@@ -64,3 +69,80 @@ Example result
 
 ### RPC API reference
 https://github.com/ethereum/go-ethereum/wiki/Management-APIs
+
+## Private Blockchain Network
+Initialize with gensis.json
+
+```json
+{
+  "difficulty" : "0x20000",
+  "extraData"  : "",
+  "gasLimit"   : "0x8000000",
+  "alloc": {},
+  "config": {
+        "chainId": 15,
+        "homesteadBlock": 0,
+        "eip155Block": 0,
+        "eip158Block": 0
+    }
+}
+```
+
+
+```
+> geth init ./genesis.json --datadir my-chain-data
+```
+
+To start the network
+
+```
+> geth --datadir my-chain-data --nodiscover
+```
+
+Launch a Geth Javascript Console to interact with the node
+
+```
+> geth attach ipc:/YOUR_IPC_END_POINT/geth.ipc
+```
+
+In the javascript console, show current accounts by
+
+```
+> eth.accounts
+```
+
+To create new account
+
+```
+> personal.newAccount()
+```
+
+The private key of the new account is stored in keystore folder
+
+## Get ether by mining
+
+Set the account
+```
+> miner.setEtherbase(eth.accounts[0])
+```
+
+Run the miner
+
+```
+> miner.start(1)
+```
+
+Checkt the ether
+
+```
+> eth.getBalance(eth.accounts[0])
+```
+
+
+## Single command to start mining
+
+```
+geth --datadir my-chain-data/ --nodiscover --unlock 0 --mine 1
+```
+
+
